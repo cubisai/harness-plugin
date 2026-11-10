@@ -27,14 +27,14 @@ scripts/pack.mjs           one zip per pack, plus dist/catalog.lock.json
 
 ## How the app gets a pack
 
-Each release carries one zip per pack. The app has each zip's URL and SHA-256 built in, and refuses any download that doesn't match. A changed pack therefore reaches people with the next app version, never on its own. The app also checks each archive's paths, sizes and file types before unpacking it, and checks the folder after unpacking.
+Each release carries one zip per pack and `catalog.lock.json`, which lists every zip's URL, size and SHA-256, signed in `catalog.lock.json.sig` (Ed25519). The app has the public key and a built-in catalog. At launch it reads the latest release's catalog, and uses it only if the signature checks out and its `serial` is newer than the one the app already has. It refuses any zip that doesn't match its hash, and checks each archive's paths, sizes and file types before unpacking, then the folder after unpacking.
 
 ## Check and pack
 
 ```
 node scripts/validate.mjs
 node scripts/validate-packs.mjs
-node scripts/pack.mjs --release packs-v1
+node scripts/release.mjs --release packs-v2 --serial 2   # pack, sign, publish (see CLAUDE.md)
 ```
 
 Each exits 0 when everything passes.

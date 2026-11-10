@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Builds one zip per catalog pack into dist/, and dist/catalog.lock.json with each zip's size and SHA-256.
 // The app pins those hashes, so a pack only changes when a new app version says so.
-// Usage: node scripts/pack.mjs [--release <tag>]   (needs the zip command)
+// Usage: node scripts/pack.mjs --release <tag> --serial <n>   (needs the zip command)
+// The serial only ever goes up: the app refuses a signed catalog whose serial isn't newer than the one it has.
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -11,6 +12,9 @@ const ROOT = join(import.meta.dirname, "..");
 const DIST = join(ROOT, "dist");
 const at = process.argv.indexOf("--release");
 const TAG = at >= 0 ? process.argv[at + 1] : "packs-v1";
+const sat = process.argv.indexOf("--serial");
+const SERIAL = Number(sat >= 0 ? process.argv[sat + 1] : 1);
+if (!Number.isInteger(SERIAL) || SERIAL < 1) throw new Error("--serial must be a whole number from 1");
 const REPO = "cubisai/harness-plugin";
 
 for (const script of ["validate.mjs", "validate-packs.mjs"]) execFileSync(process.execPath, [join(ROOT, "scripts", script), "--root", ROOT], { stdio: "inherit" });
@@ -24,7 +28,8 @@ const versionOf = (entry) => {
   return JSON.parse(readFileSync(join(ROOT, entry.path, file), "utf8")).version;
 };
 
-const lock = { repo: REPO, release: TAG, packs: [] };
+const commit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: ROOT, encoding: "utf8" }).trim();
+const lock = { format: 1, serial: SERIAL, repo: REPO, release: TAG, commit, packs: [] };
 for (const entry of catalog.packs) {
   const version = versionOf(entry);
   const file = `${entry.id}-${version}.zip`;
