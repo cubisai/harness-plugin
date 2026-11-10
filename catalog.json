@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "packs": [
+    {
+      "id": "shadcn-ui",
+      "kind": "kit",
+      "path": "kits/shadcn-ui",
+      "name": "shadcn/ui",
+      "description": "Follows shadcn/ui's current look and prop names: every component from calendar to sidebar, plus five page blocks."
+    },
+    {
+      "id": "mui",
+      "kind": "kit",
+      "path": "kits/mui",
+      "name": "MUI",
+      "description": "Follows Material UI's look and prop names: inputs, data display, navigation, Lab and MUI X parts, plus five page blocks."
+    },
+    {
+      "id": "ant-design",
+      "kind": "kit",
+      "path": "kits/ant-design",
+      "name": "Ant Design",
+      "description": "Follows Ant Design 6's look and prop names: general, layout, navigation, data entry, data display and feedback parts, plus five page blocks."
+    },
+    {
+      "id": "chakra-ui",
+      "kind": "kit",
+      "path": "kits/chakra-ui",
+      "name": "Chakra UI",
+      "description": "Follows Chakra UI 3's look and prop names: its components from aspect ratio to timeline, a colour palette on every part, plus five page blocks."
+    },
+    {
+      "id": "mantine",
+      "kind": "kit",
+      "path": "kits/mantine",
+      "name": "Mantine",
+      "description": "Follows Mantine's default theme and component set: inputs, buttons, navigation, feedback, overlays, data display and typography, plus five page blocks."
+    },
+    {
+      "id": "varelyo-ui",
+      "kind": "kit",
+      "path": "kits/varelyo-ui",
+      "name": "varelyo/ui",
+      "description": "Follows the Varelyo Foundation look and prop names: 43 components from avatar to table, plus five page blocks."
+    },
+    {
+      "id": "fonts",
+      "kind": "fonts",
+      "path": "fonts",
+      "name": "Font pack",
+      "description": "Open-licensed (OFL) faces that styles and references use."
+    },
+    {
+      "id": "legacy-styles",
+      "kind": "styles",
+      "path": "styles",
+      "name": "Classic styles",
+      "description": "The 32 original CubiQ styles, kept so older designs still open."
+    }
+  ]
+}
